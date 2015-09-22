@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Clingy Example</title>
+        <script src="../node_modules/angular/angular.min.js"></script>
+        <script src="../dist/clingy.js"></script>
+    </head>
+    <body ng-app="clingy-example">
+        <form ng-controller="ClingyController">
+            <fieldset>
+                <label for="status">Enable Clingy</label>
+                <input id="status" type="checkbox" ng-model="enabled" ng-change="toggle()" />
+            </fieldset>
+            <fieldset>
+                <label for="message">Message</label>
+                <input id="message" type="text" ng-model="message" />
+            </fieldset>
+        <form>
+
+        <script>
+            angular.module('clingy-example', [
+                'clingy',
+            ]);
+
+            angular.module('clingy-example').controller(
+                'ClingyController',
+                [
+                    '$scope',
+                    'clingy',
+                    function($scope, clingy) {
+                        var breakup = angular.noop;
+
+                        $scope.enabled = true;
+
+                        $scope.message = 'Don\'t leave me!';
+
+                        $scope.toggle = function() {
+                            if (false === $scope.enabled) {
+                                return breakup();
+                            }
+
+                            breakup = clingy.cling(
+                                $scope.message
+                            );
+                        }
+
+                        $scope.toggle();
+                    }
+                ]
+            );
+        </script>
+    </body>
+</html>
